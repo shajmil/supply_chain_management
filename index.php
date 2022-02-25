@@ -115,7 +115,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand logo" href="index.html">
+                <a class="navbar-brand logo" href="index.php">
                     <!-- <img src="images/logo-yellow.png" alt="" /> -->
                 </a>
             </div>
