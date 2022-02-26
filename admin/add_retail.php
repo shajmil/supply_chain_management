@@ -29,90 +29,75 @@
             <!-- partial:../../partials/_navbar.html -->
             <?php include 'partials/_navbar.php'; ?>'
             <!-- partial -->
-            <div class="main-panel">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">manufacturer</h4>
 
-                <div class="content-wrapper">
-                    <h3 class="text-center">Add Retailer</h3>
-                    <br>
-                    <form class="forms-sample" action="functions/add_retail.php" method="POST">
+                        <div class="table-responsive">
+                            <table class="table table-dark">
+                                <thead>
+                                    <tr>
+                                        <th> id </th>
+                                        <th> username </th>
+                                        <th> password </th>
+                                        <th>areacode </th>
+                                        <th> email </th>
+                                        <th> phone </th>
+                                        <th> address </th>
 
-                        <div class="form-group">
-                            <label for="exampleInputUsername1">username</label>
-                            <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Username"
-                                name="retail_username">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1"
-                                placeholder="Password" name="retail_password">
-                        </div>
-                        <div class="form-group">
-                            <label>select area</label>
-                            <select name="areaid" id="areaid" class="form-control">
-                                <option value="" disabled selected>--- Select Area Code ---</option>
-                                <?php
-          include('config/dbconfig.php');
-            $sql = 'SELECT * FROM area';
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+            include('config/dbconfig.php');
+            $sql = 'SELECT * FROM retail,area where retail.area_id=area.area_id && retail.status=0' ;
             $query = mysqli_query($conn,$sql);
 
             $results = mysqli_fetch_all($query,MYSQLI_ASSOC);
             foreach($results as $row) {
             ?>
-                                <option value="<?php echo $row["area_id"]; ?>">
-                                    <?php echo $row["area_code"]." (".$row["area_name"].")"; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email"
-                                name="retail_email">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputUsername1">Phone</label>
-                            <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Phone"
-                                name="retail_phone">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleTextarea1">address</label>
-                            <textarea class="form-control" id="exampleTextarea1" name="retail_address"
-                                rows="4"></textarea>
-                        </div>
+
+                                    <tr>
+                                        <td><?php echo $row['retail_id']; ?></td>
+                                        <td><?php echo $row['retail_username']; ?></td>
+                                        <td><?php echo $row['retail_password']; ?></td>
+                                        <td><?php echo $row['area_code']; ?></td>
+                                        <td><?php echo $row['retail_email']; ?></td>
+                                        <td><?php echo $row['retail_phone']; ?></td>
+                                        <td><?php echo $row['retail_address']; ?></td>
 
 
-                        <!-- <div class="form-check form-check-flat form-check-primary">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input"> Remember me </label>
-                      </div> -->
-                        <button type="submit" class="btn btn-primary mr-2">Add Retailer</button>
+                                        <td><a class="btn btn-sm btn-primary" id="btn-update"
+                                                href="functions/accpt_retail.php?id=<?php echo $row['retail_id']; ?>"
+                                                </a> add
+                                        </td>
+                                        <td> <a class="btn btn-sm btn-danger" id="btn-delete"
+                                                href="functions/delete_retail.php?id=<?php echo $row['retail_id']; ?>"
+                                                <i class="fas fa-trash"></i> Delete</a></td>
+                                    </tr>
 
-                    </form>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- content-wrapper ends -->
-            <!-- partial:../../partials/_footer.html -->
-            <?php include 'partials/_footer.php'; ?>
-            <!-- partial -->
-        </div>
-        <!-- main-panel ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-    </div>-
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
-    <script src="assets/js/off-canvas.js"></script>
-    <script src="assets/js/hoverable-collapse.js"></script>
-    <script src="assets/js/misc.js"></script>
-    <script src="assets/js/settings.js"></script>
-    <script src="assets/js/todolist.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page -->
-    <!-- End custom js for this page -->
+            <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+            <!-- endinject -->
+            <!-- Plugin js for this page -->
+            <!-- End plugin js for this page -->
+            <!-- inject:js -->
+            <script src="assets/js/off-canvas.js"></script>
+            <script src="assets/js/hoverable-collapse.js"></script>
+            <script src="assets/js/misc.js"></script>
+            <script src="assets/js/settings.js"></script>
+            <script src="assets/js/todolist.js"></script>
+            <!-- endinject -->
+            <!-- Custom js for this page -->
+            <!-- End custom js for this page -->
 </body>
 
 </html>

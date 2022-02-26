@@ -1,5 +1,5 @@
 <?php 
-
+error_reporting(1);
 session_start();
  $status=$_GET['status'];
 if(empty($_SESSION['email'])){

@@ -133,6 +133,7 @@
 
                             <a href="manufacture/register.php">Manufacture</a>
                             <a href="retailer/register.php">Retailer</a>
+                            <a href="register.php">Distributor</a>
                         </div>
                     </div>
                     <div class="dropdown">
@@ -141,6 +142,7 @@
                             <a href="admin/index.php">Admin</a>
                             <a href=" manufacture/index.php ">Manufacture</a>
                             <a href="retailer/index.php">Retailer</a>
+                            <a href="distributor/index.php">Distributor</a>
                         </div>
                     </div>
                     <!-- <li><a href="portfolio.html">Portfolio</a></li>

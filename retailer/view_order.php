@@ -248,7 +248,7 @@ if($row['status'] == 0){
 
             </tr>
             <?php } 
-    if($row['status']==1)
+    elseif($row['status']==1)
     {
       $or=$row['order_id']; 
      $s=" SELECT invoice.status as invoice_status FROM invoice WHERE invoice.order_id=$or";
@@ -273,8 +273,64 @@ if($row['status'] == 0){
                 </td>
 
             </tr>
-            <?php  }} 
-    ?>
+            <?php  } elseif($row['status']==2)
+    {
+      $or=$row['order_id']; 
+     $s=" SELECT invoice.status as invoice_status FROM invoice WHERE invoice.order_id=$or";
+     $que = mysqli_query($conn,$s);  
+     $result = mysqli_fetch_assoc($que);  
+    //  print_r($result); 
+    //  print_r ($result);    
+                    ?>
+            <tr>
+                <td><?php echo $row['order_id']; ?></td>
+                <td><?php echo $row['date']; ?></td>
+                <td><?php echo $row['man_name']; ?></td>
+                <td><?php 
+         
+            echo"delivered";  
+           ?></td>
+                <td><a href="order_datails.php?id=<?php echo $row['order_id']; ?>">Details </a> </td>
+                <td>
+                    <?php  if($result['invoice_status'] == 1){ ?>
+                    <a href="view_invoice.php?id=<?php echo $row['order_id']; ?>">Invoice </a>
+                    <?php }  ?>
+                </td>
+
+            </tr>
+            <?php  
+            
+        
+        
+        
+        } elseif($row['status']==9)
+        {
+          $or=$row['order_id']; 
+         $s=" SELECT invoice.status as invoice_status FROM invoice WHERE invoice.order_id=$or";
+         $que = mysqli_query($conn,$s);  
+         $result = mysqli_fetch_assoc($que);  
+        //  print_r($result); 
+        //  print_r ($result);    
+                        ?>
+            <tr>
+                <td><?php echo $row['order_id']; ?></td>
+                <td><?php echo $row['date']; ?></td>
+                <td><?php echo $row['man_name']; ?></td>
+                <td><?php 
+             
+                echo"Canceled";  
+               ?></td>
+                <td><a href="order_datails.php?id=<?php echo $row['order_id']; ?>">Details </a> </td>
+                <td></td>
+
+            </tr>
+            <?php  
+                
+            
+            
+            
+            }} 
+        ?>
         </tbody>
     </table>
 

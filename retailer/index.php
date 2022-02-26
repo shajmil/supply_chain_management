@@ -144,9 +144,33 @@ e[s]=e[s]||[],e.zaraz._preTrack=[],e.zaraz.track=(t,r)=>e.zaraz._preTrack.push([
         footer: '<a href="">Why do I have this issue?</a>'
     })
     </script>
-    <?php  }
-                                                                                            ?>
-
+    <?php  }   else if($status=='notauser')
+                                                                        {
+                                                                         
+                                                                         ?>
+    <script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'you have not registered',
+        footer: '<a href="">Why do I have this issue?</a>'
+    })
+    </script>
+    <?php  } 
+                                                                                          else if($status=='pending')
+                                                                                          {
+                                                                                           
+                                                                                           ?>
+    <script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'you request is pending',
+        footer: '<a href="">Why do I have this issue?</a>'
+    })
+    </script>
+    <?php  } 
+                                                                                                              ?>
 
     <div class="limiter">
         <div class="container-login100" style="background-image: url('images/bg-01.jpg');">

@@ -114,21 +114,48 @@ $result = mysqli_fetch_all($quer,MYSQLI_ASSOC);
 
                                             <td><?php 
       if($row['status'] == 0){
-      echo "pending";}else{
-        echo"completed";  
-      } ?></td>
+      echo "pending";}elseif($row['status'] == 9){
+        echo"canceled";  
+      } else{
+          echo"completed";
+      }?></td>
                                             <td><a href="order_details.php?id=<?php echo $row['order_id']; ?>"
                                                     class="btn btn-primary">Details</a></td>
 
                                             <td>
 
-                                                <?php if($row['status'] == 1){ 
-                                                   ?>
+                                                <?php if($row['status'] == 1){
+                                                 $i=   $row['order_id'] ;
+$s = " SELECT invoice.order_id,invoice.status  FROM invoice
+
+WHERE invoice.order_id= $i";
+
+
+$q = mysqli_query($conn,$s);
+
+$r = mysqli_fetch_assoc($q);
+                                               
+if($r['status'] == 0){     
+                                               ?>
+
+
+
+                                                <a href="functions/generate_invoice.php?id=<?php echo $row['order_id']; ?>"
+                                                    class="btn btn-warning">
+                                                    <?php
+                                                echo"invoice";
+                                               } else { ?> </a>
+
+
+
+
+
                                                 <a href="functions/generate_invoice.php?id=<?php echo $row['order_id']; ?>"
                                                     class="btn btn-success">
                                                     <?php
                                                 echo"invoice";
-                                                }?></a>
+?></a>
+                                                <?php }}?>
 
                                             </td>
 

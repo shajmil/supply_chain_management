@@ -5,8 +5,9 @@ include('../config/dbconfig.php');
             extract($_POST);
             $date = date('y-m-d');
             $sql ="UPDATE  `invoice` SET `date`='$date',`dist_id`='$disid', `status` = '1' WHERE `invoice`.`order_id` = $order_id";
+            $sq = "UPDATE distributor set status = '1' WHERE `dist_id`='$disid'";
             // echo $sql;
-            // $query = mysqli_query($conn,$sql);
+            $query = mysqli_query($conn,$sq );
 
            if(mysqli_query($conn,$sql))
            {

@@ -148,8 +148,31 @@ $status=$_GET['status'];
         footer: '<a href="">Why do I have this issue?</a>'
     })
     </script>
-    <?php  }
-                                     ?>
+    <?php  }else if($status=='pending')
+                 {
+                  
+                  ?>
+    <script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'profile is not confirmed',
+        footer: '<a href="">Why do I have this issue?</a>'
+    })
+    </script><?php }
+  else if($status=='notauser')
+  {
+   
+   ?> <script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'profile is not found. Please try again.',
+        footer: '<a href="">Why do I have this issue?</a>'
+    })
+    </script><?php }
+    ?>
+
 
 
     <div class="full_container">

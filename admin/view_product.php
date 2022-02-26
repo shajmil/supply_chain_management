@@ -39,7 +39,7 @@
                             <option value="" disabled selected>--- Select manufacture ---</option>
                             <?php
           include('config/dbconfig.php');
-            $sql = 'SELECT * FROM manufacturer';
+            $sql = 'SELECT * FROM manufacturer where status = 1';
             $query = mysqli_query($conn,$sql);
 
             $results = mysqli_fetch_all($query,MYSQLI_ASSOC);
