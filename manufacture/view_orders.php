@@ -18,7 +18,7 @@ alert('Sorry,you didnot have enough stock')
 $id=$_SESSION['id'];
 $sq =" SELECT  orders.order_id,retail.retail_username,orders.date,orders.status FROM orders
  INNER JOIN retail  ON orders.retailer_id=retail.retail_id
- WHERE orders.man_id=$id";
+ WHERE orders.man_id=$id  ORDER BY orders.order_id Desc";
 
 $quer = mysqli_query($conn,$sq);  
 $result = mysqli_fetch_all($quer,MYSQLI_ASSOC);

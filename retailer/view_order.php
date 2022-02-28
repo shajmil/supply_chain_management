@@ -12,7 +12,7 @@ $idi = $_GET['status'];
 
 $sq =" SELECT orders.order_id, orders.date,manufacturer.man_name,orders.status FROM orders 
  INNER JOIN manufacturer ON orders.man_id=manufacturer.man_id
-  WHERE orders.retailer_id=$retail_id";
+  WHERE orders.retailer_id=$retail_id ORDER BY orders.order_id Desc";
 
 $quer = mysqli_query($conn,$sq);  
 $result = mysqli_fetch_all($quer,MYSQLI_ASSOC);

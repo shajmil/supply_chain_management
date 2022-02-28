@@ -10,7 +10,7 @@ if(mysqli_query($conn,$sql))
 <script>
 alert("sucess");
 </script>
-
+<?php
 }
 else {
 echo "error";
