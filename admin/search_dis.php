@@ -30,15 +30,13 @@
             <?php include 'partials/_navbar.php'; ?>'
             <!-- partial -->
             <div class="col-lg-12 grid-margin stretch-card">
-
                 <div class="card">
                     <div class="card-body">
-
                         <h4 class="card-title">manufacturer</h4>
 
                         <div class="table-responsive">
                             <div style="text-align:right; border-top:1px " class="">
-                                <form id="" action="search_man.php" class=" " method="POST">
+                                <form id="" action="search_dis.php" class=" " method="POST">
                                     <div class="">
                                         <br>
                                         <input type="text" name="search" class="" placeholder="Search">
@@ -49,19 +47,22 @@
                             <table class="table table-dark">
                                 <thead>
                                     <tr>
-                                        <th> id </th>
-                                        <th> name </th>
-                                        <th> email </th>
-                                        <th> phone </th>
-                                        <th> username </th>
-                                        <th>password </th>
+                                        <th> dist id </th>
+                                        <th> dist name </th>
+                                        <th> dist email </th>
+                                        <th> dist phone </th>
+                                        <th> dist address </th>
+
 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
             include('config/dbconfig.php');
-            $sql = 'SELECT * FROM manufacturer where status = 1  ORDER BY man_id DESC';
+            
+extract($_POST);
+$search = $_POST['search'];
+            $sql = "SELECT * FROM distributor where status >= 1 && (dist_name LIKE '%{$search}%' || dist_phone LIKE '%{$search}%' || dist_email LIKE '%{$search}%' ) ORDER BY dist_id DESC";
             $query = mysqli_query($conn,$sql);
 
             $results = mysqli_fetch_all($query,MYSQLI_ASSOC);
@@ -69,19 +70,21 @@
             ?>
 
                                     <tr>
-                                        <td><?php echo $row['man_id']; ?></td>
-                                        <td><?php echo $row['man_name']; ?></td>
-                                        <td><?php echo $row['man_email']; ?></td>
-                                        <td><?php echo $row['man_phone']; ?></td>
-                                        <td><?php echo $row['username']; ?></td>
-                                        <td><?php echo $row['password']; ?></td>
+                                        <td><?php echo $row['dist_id']; ?></td>
+                                        <td><?php echo $row['dist_name']; ?></td>
+                                        <td><?php echo $row['dist_email']; ?></td>
+                                        <td><?php echo $row['dist_phone']; ?></td>
+                                        <td><?php echo $row['dist_address']; ?></td>
 
                                         <td><a class="btn btn-sm btn-primary" id="btn-update"
-                                                href="update_man.php?id=<?php echo $row['man_id']; ?>" </a> Update</td>
+                                                href="update_distributor.php?id=<?php echo $row['dist_id']; ?>" </a>
+                                                Update</td>
+                                        <td> <img src="../images/<?php echo $row['dist_photo']; ?>" alt=""></td>
                                         <td> <a class="btn btn-sm btn-danger" id="btn-delete"
-                                                href="functions/delete_man.php?id=<?php echo $row['man_id']; ?>" <i
+                                                href="functions/delete_dist.php?id=<?php echo $row['dist_id']; ?>" <i
                                                 class="fas fa-trash"></i> Delete</a></td>
                                     </tr>
+
                                     <?php } ?>
                                 </tbody>
                             </table>
@@ -89,6 +92,7 @@
                     </div>
                 </div>
             </div>
+
             <script src="assets/vendors/js/vendor.bundle.base.js"></script>
             <!-- endinject -->
             <!-- Plugin js for this page -->

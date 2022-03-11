@@ -12,6 +12,12 @@ include 'config/dbconfig.php';
 <html lang="en">
 
 <head>
+
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet"
+        id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@3/dark.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9/dist/sweetalert2.min.js"></script>
 
@@ -73,6 +79,15 @@ include 'config/dbconfig.php';
                             <div class="heading1 margin_0">
                                 <h2>RETAILERS</h2>
                             </div>
+                        </div>
+                        <div style="text-align:right; border-top:1px " class="">
+                            <form id="" action="search_ret.php" class=" " method="POST">
+                                <div class="">
+                                    <br>
+                                    <input type="text" name="search" class="" placeholder="Search">
+                                    <button type="submit" class="btn btn-sm"><i class="icon-search"></i></button>
+                                </div>
+                            </form>
                         </div>
                         <div class="table_section padding_infor_info">
                             <div class="table-responsive-sm">

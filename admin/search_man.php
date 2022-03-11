@@ -61,7 +61,10 @@
                                 <tbody>
                                     <?php
             include('config/dbconfig.php');
-            $sql = 'SELECT * FROM manufacturer where status = 1  ORDER BY man_id DESC';
+            
+extract($_POST);
+$search = $_POST['search'];
+            $sql = "SELECT * FROM manufacturer where status = 1  && (man_name LIKE '%{$search}%' || man_email LIKE '%{$search}%' || man_phone LIKE '%{$search}%' || username LIKE '%{$search}%'  ) ORDER BY man_id DESC";
             $query = mysqli_query($conn,$sql);
 
             $results = mysqli_fetch_all($query,MYSQLI_ASSOC);

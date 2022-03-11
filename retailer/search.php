@@ -8,21 +8,53 @@ $retail_id=$_SESSION['reatil_id'];
 error_reporting(0);
 include('config/dbconfig.php');
 extract($_POST);
-$idi = $_GET['status'];
 
+$search = $_POST['search'];
+if($search == 'completed')
+{
+    $search =1; 
+    $sq =" SELECT orders.order_id, orders.date,manufacturer.man_name,orders.status FROM orders 
+ INNER JOIN manufacturer ON orders.man_id=manufacturer.man_id
+  WHERE orders.retailer_id=$retail_id && orders.status LIKE '%{$search}%' ORDER BY orders.order_id Desc";
+echo $sq;
+$quer = mysqli_query($conn,$sq);  
+$result = mysqli_fetch_all($quer,MYSQLI_ASSOC);  
+}else if($search == 'pending')
+{
+    $search =0;   
+    $sq =" SELECT orders.order_id, orders.date,manufacturer.man_name,orders.status FROM orders 
+    INNER JOIN manufacturer ON orders.man_id=manufacturer.man_id
+     WHERE orders.retailer_id=$retail_id && orders.status LIKE '%{$search}%' ORDER BY orders.order_id Desc";
+   echo $sq;
+   $quer = mysqli_query($conn,$sq);  
+   $result = mysqli_fetch_all($quer,MYSQLI_ASSOC); 
+}else if($search == 'delivered')
+{
+    $search =2;   
+    $sq =" SELECT orders.order_id, orders.date,manufacturer.man_name,orders.status FROM orders 
+    INNER JOIN manufacturer ON orders.man_id=manufacturer.man_id
+     WHERE orders.retailer_id=$retail_id && orders.status LIKE '%{$search}%' ORDER BY orders.order_id Desc";
+   echo $sq;
+   $quer = mysqli_query($conn,$sq);  
+   $result = mysqli_fetch_all($quer,MYSQLI_ASSOC); 
+}else if($search == 'cancelled')
+{
+    $search =9;   
+    $sq =" SELECT orders.order_id, orders.date,manufacturer.man_name,orders.status FROM orders 
+    INNER JOIN manufacturer ON orders.man_id=manufacturer.man_id
+     WHERE orders.retailer_id=$retail_id && orders.status LIKE '%{$search}%' ORDER BY orders.order_id Desc";
+   echo $sq;
+   $quer = mysqli_query($conn,$sq);  
+   $result = mysqli_fetch_all($quer,MYSQLI_ASSOC); 
+}else
+{
+// ECHO $search;
 $sq =" SELECT orders.order_id, orders.date,manufacturer.man_name,orders.status FROM orders 
  INNER JOIN manufacturer ON orders.man_id=manufacturer.man_id
-  WHERE orders.retailer_id=$retail_id ORDER BY orders.order_id Desc";
-
+  WHERE orders.retailer_id=$retail_id && (manufacturer.man_name LIKE '%{$search}%' || orders.date LIKE '%{$search}%' || orders.order_id LIKE '%{$search}%')ORDER BY orders.order_id Desc";
+// echo $sq;
 $quer = mysqli_query($conn,$sq);  
 $result = mysqli_fetch_all($quer,MYSQLI_ASSOC);
-if($idi == "check")
-{ ?>
-
-<script>
-alert("ORDER HAS BEEN PLACED check order status to know about your order");
-</script>
-<?php
 }
 ?>
 
@@ -199,7 +231,8 @@ alert("ORDER HAS BEEN PLACED check order status to know about your order");
 <!--[if IE 7]><body class="ie7 lt-ie8 lt-ie9 lt-ie10"><![endif]-->
 <!--[if IE 8]><body class="ie8 lt-ie9 lt-ie10"><![endif]-->
 <!--[if IE 9]><body class="ie9 lt-ie10"><![endif]-->
-<?php include('partials/navbar copy.php') ;?>
+<?php include('partials/navbar copy.php') ;
+?>
 <div id="back2top"><i class="fa fa-angle-up"></i></div>
 <div class="loader"></div>
 <div class="page-wrap">
@@ -267,6 +300,7 @@ if($row['status'] == 0){
             <?php } 
     elseif($row['status']==1)
     {
+        // echo $sq;
       $or=$row['order_id']; 
      $s=" SELECT invoice.status as invoice_status FROM invoice WHERE invoice.order_id=$or";
      $que = mysqli_query($conn,$s);  

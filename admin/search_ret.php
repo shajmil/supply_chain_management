@@ -30,15 +30,13 @@
             <?php include 'partials/_navbar.php'; ?>'
             <!-- partial -->
             <div class="col-lg-12 grid-margin stretch-card">
-
                 <div class="card">
                     <div class="card-body">
-
                         <h4 class="card-title">manufacturer</h4>
 
                         <div class="table-responsive">
                             <div style="text-align:right; border-top:1px " class="">
-                                <form id="" action="search_man.php" class=" " method="POST">
+                                <form id="" action="search_ret.php" class=" " method="POST">
                                     <div class="">
                                         <br>
                                         <input type="text" name="search" class="" placeholder="Search">
@@ -50,18 +48,23 @@
                                 <thead>
                                     <tr>
                                         <th> id </th>
-                                        <th> name </th>
+                                        <th> username </th>
+                                        <th> password </th>
+                                        <th>areacode </th>
                                         <th> email </th>
                                         <th> phone </th>
-                                        <th> username </th>
-                                        <th>password </th>
+                                        <th> address </th>
+
 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
             include('config/dbconfig.php');
-            $sql = 'SELECT * FROM manufacturer where status = 1  ORDER BY man_id DESC';
+            
+extract($_POST);
+$search = $_POST['search'];
+            $sql = "SELECT * FROM retail,area where retail.area_id=area.area_id && retail.status = 1  && (retail_username LIKE '%{$search}%' || retail_phone LIKE '%{$search}%' || retail_id LIKE '%{$search}%' )  ORDER BY retail.retail_id DESC";
             $query = mysqli_query($conn,$sql);
 
             $results = mysqli_fetch_all($query,MYSQLI_ASSOC);
@@ -69,19 +72,23 @@
             ?>
 
                                     <tr>
-                                        <td><?php echo $row['man_id']; ?></td>
-                                        <td><?php echo $row['man_name']; ?></td>
-                                        <td><?php echo $row['man_email']; ?></td>
-                                        <td><?php echo $row['man_phone']; ?></td>
-                                        <td><?php echo $row['username']; ?></td>
-                                        <td><?php echo $row['password']; ?></td>
+                                        <td><?php echo $row['retail_id']; ?></td>
+                                        <td><?php echo $row['retail_username']; ?></td>
+                                        <td><?php echo $row['retail_password']; ?></td>
+                                        <td><?php echo $row['area_code']; ?></td>
+                                        <td><?php echo $row['retail_email']; ?></td>
+                                        <td><?php echo $row['retail_phone']; ?></td>
+                                        <td><?php echo $row['retail_address']; ?></td>
+
 
                                         <td><a class="btn btn-sm btn-primary" id="btn-update"
-                                                href="update_man.php?id=<?php echo $row['man_id']; ?>" </a> Update</td>
+                                                href="update_retail.php?id=<?php echo $row['retail_id']; ?>" </a> Update
+                                        </td>
                                         <td> <a class="btn btn-sm btn-danger" id="btn-delete"
-                                                href="functions/delete_man.php?id=<?php echo $row['man_id']; ?>" <i
-                                                class="fas fa-trash"></i> Delete</a></td>
+                                                href="functions/delete_retail.php?id=<?php echo $row['retail_id']; ?>"
+                                                <i class="fas fa-trash"></i> Delete</a></td>
                                     </tr>
+
                                     <?php } ?>
                                 </tbody>
                             </table>

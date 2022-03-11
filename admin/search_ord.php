@@ -4,17 +4,60 @@ session_start();
 
 include('config/dbconfig.php');
 
+extract($_POST);
+$search = $_POST['search'];
+
+if($search == 'completed')
+{
+    $search =1; 
+    $sq =" SELECT orders.order_id, orders.date,manufacturer.man_name,orders.status,retail.retail_username FROM orders 
+    INNER JOIN manufacturer ON orders.man_id=manufacturer.man_id
+    INNER JOIN retail ON orders.retailer_id=retail.retail_id where orders.status LIKE '%{$search}%' ORDER BY orders.order_id Desc";
+// echo $sq;
+$quer = mysqli_query($conn,$sq);  
+$result = mysqli_fetch_all($quer,MYSQLI_ASSOC);  
+}else if($search == 'pending')
+{
+    $search =0;   
+    $sq ="   SELECT orders.order_id, orders.date,manufacturer.man_name,orders.status,retail.retail_username FROM orders 
+    INNER JOIN manufacturer ON orders.man_id=manufacturer.man_id
+    INNER JOIN retail ON orders.retailer_id=retail.retail_id where orders.status LIKE '%{$search}%' ORDER BY orders.order_id Desc";
+//    echo $sq;//
+   $quer = mysqli_query($conn,$sq);  
+   $result = mysqli_fetch_all($quer,MYSQLI_ASSOC); 
+}else if($search == 'delivered')
+{
+    $search =2;   
+    $sq ="  SELECT orders.order_id, orders.date,manufacturer.man_name,orders.status,retail.retail_username FROM orders 
+    INNER JOIN manufacturer ON orders.man_id=manufacturer.man_id
+    INNER JOIN retail ON orders.retailer_id=retail.retail_idwhere  orders.status LIKE  '%{$search}%' ORDER BY orders.order_id Desc";
+//    echo $sq;
+   $quer = mysqli_query($conn,$sq);  
+   $result = mysqli_fetch_all($quer,MYSQLI_ASSOC); 
+}else if($search == 'cancelled')
+{
+    $search =9;   
+    $sq ="  SELECT orders.order_id, orders.date,manufacturer.man_name,orders.status,retail.retail_username FROM orders 
+    INNER JOIN manufacturer ON orders.man_id=manufacturer.man_id
+    INNER JOIN retail ON orders.retailer_id=retail.retail_id where orders.status LIKE'%{$search}%' ORDER BY orders.order_id Desc";
+  
+   $quer = mysqli_query($conn,$sq);  
+   $result = mysqli_fetch_all($quer,MYSQLI_ASSOC); 
+}else
+{
+
 
 
 $sq =" SELECT orders.order_id, orders.date,manufacturer.man_name,orders.status,retail.retail_username FROM orders 
- INNER JOIN manufacturer ON orders.man_id=manufacturer.man_id
- INNER JOIN retail ON orders.retailer_id=retail.retail_id
- order by orders.order_id DESC ";
-echo $sq;
+INNER JOIN manufacturer ON orders.man_id=manufacturer.man_id
+INNER JOIN retail ON orders.retailer_id=retail.retail_id where  (retail.retail_username LIKE '%{$search}%' || orders.date LIKE '%{$search}%' || orders.order_id LIKE '%{$search}%' || manufacturer.man_name LIKE '%{$search}%') ORDER BY orders.order_id Desc";
+   echo $sq;
+ 
 $quer = mysqli_query($conn,$sq);  
 $result = mysqli_fetch_all($quer,MYSQLI_ASSOC);
-?>
+}
 
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -99,7 +142,7 @@ if($row['status'] == 0){
 
                                     </tr>
                                     <?php } 
-    if($row['status']==1 )
+    if($row['status']==1)
     {
       $or=$row['order_id']; 
      $s=" SELECT invoice.status as invoice_status FROM invoice WHERE invoice.order_id=$or";
@@ -125,8 +168,7 @@ if($row['status'] == 0){
                                             <?php }  ?>
                                         </td>
 
-                                    </tr>
-                                    <?php  }
+                                    </tr> <?php  }
 if($row['status'] == 9){
   ?>
                                     <tr>

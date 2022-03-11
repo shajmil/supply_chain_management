@@ -7,22 +7,57 @@ if(empty($_SESSION['email'])){
 }
 
 include 'config/dbconfig.php';
-$msg = $_GET['msg'];
-if($msg == 'nostock')
-{
-   ?>
-<script>
-alert('Sorry,you didnot have enough stock')
-</script><?php
-} 
+extract($_POST);
+$search = $_POST['search'];
 $id=$_SESSION['id'];
+if($search == 'completed')
+{
+    $search =1; 
+    $sq =" SELECT  orders.order_id,retail.retail_username,orders.date,orders.status FROM orders
+    INNER JOIN retail  ON orders.retailer_id=retail.retail_id
+    WHERE orders.man_id=$id  && orders.status LIKE '%{$search}%' ORDER BY orders.order_id Desc";
+// echo $sq;
+$quer = mysqli_query($conn,$sq);  
+$result = mysqli_fetch_all($quer,MYSQLI_ASSOC);  
+}else if($search == 'pending')
+{
+    $search =0;   
+    $sq ="  SELECT  orders.order_id,retail.retail_username,orders.date,orders.status FROM orders
+    INNER JOIN retail  ON orders.retailer_id=retail.retail_id
+    WHERE orders.man_id=$id && orders.status LIKE '%{$search}%' ORDER BY orders.order_id Desc";
+   echo $sq;
+   $quer = mysqli_query($conn,$sq);  
+   $result = mysqli_fetch_all($quer,MYSQLI_ASSOC); 
+}else if($search == 'delivered')
+{
+    $search =2;   
+    $sq ="  SELECT  orders.order_id,retail.retail_username,orders.date,orders.status FROM orders
+    INNER JOIN retail  ON orders.retailer_id=retail.retail_id
+    WHERE orders.man_id=$id && orders.status LIKE  '%{$search}%' ORDER BY orders.order_id Desc";
+   echo $sq;
+   $quer = mysqli_query($conn,$sq);  
+   $result = mysqli_fetch_all($quer,MYSQLI_ASSOC); 
+}else if($search == 'cancelled')
+{
+    $search =9;   
+    $sq ="  SELECT  orders.order_id,retail.retail_username,orders.date,orders.status FROM orders
+    INNER JOIN retail  ON orders.retailer_id=retail.retail_id
+    WHERE orders.man_id=$id  && orders.status LIKE'%{$search}%' ORDER BY orders.order_id Desc";
+   echo $sq;
+   $quer = mysqli_query($conn,$sq);  
+   $result = mysqli_fetch_all($quer,MYSQLI_ASSOC); 
+}else
+{
+
+
+
 $sq =" SELECT  orders.order_id,retail.retail_username,orders.date,orders.status FROM orders
  INNER JOIN retail  ON orders.retailer_id=retail.retail_id
- WHERE orders.man_id=$id  ORDER BY orders.order_id Desc";
+ WHERE orders.man_id=$id && (retail.retail_username LIKE '%{$search}%' || orders.date LIKE '%{$search}%' || orders.order_id LIKE '%{$search}%') ORDER BY orders.order_id Desc";
 
 $quer = mysqli_query($conn,$sq);  
 $result = mysqli_fetch_all($quer,MYSQLI_ASSOC);
-?>
+}?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -107,7 +142,6 @@ $result = mysqli_fetch_all($quer,MYSQLI_ASSOC);
                         </div>
                         <div class="table_section padding_infor_info">
                             <div class="table-responsive-sm">
-
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>

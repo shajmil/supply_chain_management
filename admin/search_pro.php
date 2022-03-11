@@ -1,3 +1,6 @@
+<?php session_start();
+error_reporting(0);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,15 +33,13 @@
             <?php include 'partials/_navbar.php'; ?>'
             <!-- partial -->
             <div class="col-lg-12 grid-margin stretch-card">
-
                 <div class="card">
                     <div class="card-body">
-
                         <h4 class="card-title">manufacturer</h4>
 
                         <div class="table-responsive">
                             <div style="text-align:right; border-top:1px " class="">
-                                <form id="" action="search_man.php" class=" " method="POST">
+                                <form id="" action="search_pro.php" class=" " method="POST">
                                     <div class="">
                                         <br>
                                         <input type="text" name="search" class="" placeholder="Search">
@@ -49,39 +50,59 @@
                             <table class="table table-dark">
                                 <thead>
                                     <tr>
+                                        <th> manufacture </th>
                                         <th> id </th>
-                                        <th> name </th>
-                                        <th> email </th>
-                                        <th> phone </th>
-                                        <th> username </th>
-                                        <th>password </th>
+                                        <th> product name </th>
+
+                                        <th>product price </th>
+                                        <th> unit </th>
+                                        <th> category </th>
+                                        <th> quantity </th>
+
 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
             include('config/dbconfig.php');
-            $sql = 'SELECT * FROM manufacturer where status = 1  ORDER BY man_id DESC';
+            extract($_POST);
+            $manid= $_SESSION['main_id'];
+$search = $_POST['search'];
+            $sql =" SELECT manufacturer.man_name,products.pro_id, products.pro_name,products.pro_photo, products.pro_price,unit.unit_name,categories.cat_name,quantity FROM products 
+            INNER JOIN unit ON products.unit_id=unit.unit_id 
+            INNER JOIN categories ON products.pro_cat=categories.cat_id
+            INNER JOIN manufacturer ON products.man_id=manufacturer.man_id
+             WHERE products.man_id=$manid && (products.pro_id  LIKE '%{$search}%' || products.pro_name  LIKE '%{$search}%' || products.pro_price LIKE '%{$search}%' || categories.cat_name  LIKE '%{$search}%' )";
+            // echo $sql;
             $query = mysqli_query($conn,$sql);
 
             $results = mysqli_fetch_all($query,MYSQLI_ASSOC);
+            // print_r($results);
             foreach($results as $row) {
             ?>
 
+
                                     <tr>
-                                        <td><?php echo $row['man_id']; ?></td>
+
                                         <td><?php echo $row['man_name']; ?></td>
-                                        <td><?php echo $row['man_email']; ?></td>
-                                        <td><?php echo $row['man_phone']; ?></td>
-                                        <td><?php echo $row['username']; ?></td>
-                                        <td><?php echo $row['password']; ?></td>
+                                        <td><?php echo $row['pro_id']; ?></td>
+                                        <td><?php echo $row['pro_name']; ?></td>
+                                        <td><?php echo $row['pro_price']; ?></td>
+                                        <td><?php echo $row['unit_name']; ?></td>
+                                        <td><?php echo $row['cat_name']; ?></td>
+                                        <td><?php echo $row['quantity']; ?></td>
+                                        <td> <img src="../images/<?php echo $row['pro_photo']; ?>" alt=""></td>
+
+
 
                                         <td><a class="btn btn-sm btn-primary" id="btn-update"
-                                                href="update_man.php?id=<?php echo $row['man_id']; ?>" </a> Update</td>
+                                                href="update_product.php?id=<?php echo $row['pro_id']; ?>" </a> Update
+                                        </td>
                                         <td> <a class="btn btn-sm btn-danger" id="btn-delete"
-                                                href="functions/delete_man.php?id=<?php echo $row['man_id']; ?>" <i
+                                                href="functions/delete_product.php?id=<?php echo $row['pro_id']; ?>" <i
                                                 class="fas fa-trash"></i> Delete</a></td>
                                     </tr>
+
                                     <?php } ?>
                                 </tbody>
                             </table>
@@ -89,6 +110,9 @@
                     </div>
                 </div>
             </div>
+
+
+
             <script src="assets/vendors/js/vendor.bundle.base.js"></script>
             <!-- endinject -->
             <!-- Plugin js for this page -->

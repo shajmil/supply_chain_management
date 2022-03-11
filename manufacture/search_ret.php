@@ -1,29 +1,15 @@
 <?php 
 
 session_start();
-error_reporting(0);
+
 if(empty($_SESSION['email'])){
   header('Location:index.php?status=401');
 }
 
 include 'config/dbconfig.php';
-$msg = $_GET['msg'];
-if($msg == 'nostock')
-{
-   ?>
-<script>
-alert('Sorry,you didnot have enough stock')
-</script><?php
-} 
-$id=$_SESSION['id'];
-$sq =" SELECT  orders.order_id,retail.retail_username,orders.date,orders.status FROM orders
- INNER JOIN retail  ON orders.retailer_id=retail.retail_id
- WHERE orders.man_id=$id  ORDER BY orders.order_id Desc";
 
-$quer = mysqli_query($conn,$sq);  
-$result = mysqli_fetch_all($quer,MYSQLI_ASSOC);
+
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,6 +19,7 @@ $result = mysqli_fetch_all($quer,MYSQLI_ASSOC);
         id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@3/dark.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9/dist/sweetalert2.min.js"></script>
 
@@ -77,7 +64,6 @@ $result = mysqli_fetch_all($quer,MYSQLI_ASSOC);
 
 <body class="dashboard dashboard_1">
     <div class="full_container">
-
         <div class="inner_container">
             <!-- Sidebar  -->
             <?php include('partials/sidebar.php'); ?>
@@ -88,16 +74,16 @@ $result = mysqli_fetch_all($quer,MYSQLI_ASSOC);
                 <?php include 'partials/navbar.php'; ?>
                 <!-- end topbar -->
                 <!-- dashboard inner -->
+
                 <div class="col-md-12">
                     <div class="white_shd full margin_bottom_30">
                         <div class="full graph_head">
                             <div class="heading1 margin_0">
-                                <h2>Orders</h2>
+                                <h2>RETAILERS</h2>
                             </div>
                         </div>
-                        <br>
                         <div style="text-align:right; border-top:1px " class="">
-                            <form id="" action="search.php" class=" " method="POST">
+                            <form id="" action="search_ret.php" class=" " method="POST">
                                 <div class="">
                                     <br>
                                     <input type="text" name="search" class="" placeholder="Search">
@@ -107,81 +93,50 @@ $result = mysqli_fetch_all($quer,MYSQLI_ASSOC);
                         </div>
                         <div class="table_section padding_infor_info">
                             <div class="table-responsive-sm">
-
-                                <table class="table table-hover">
-                                    <thead>
+                                <table class="table  table table-dark">
+                                    <thead class="thead-light">
                                         <tr>
-                                            <th>Order id</th>
-                                            <th>Retailer Name</th>
-                                            <th>Date</th>
-                                            <th>Order Status</th>
-                                            <th>Details</th>
+                                            <th> id </th>
+                                            <th> username </th>
 
-                                            <th>Invoice</th>
+                                            <th>areacode </th>
+                                            <th> email </th>
+                                            <th> phone </th>
+                                            <th> address </th>
+                                            <th> </th>
+                                            <th> </th>
+
+
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($result as $row) {
-                
-                ?>
-                                        <tr style=" color:black; ">
-                                            <td><?php echo $row['order_id']; ?></td>
+                                        <?php
+            include('config/dbconfig.php');
+            extract($_POST);
+$search = $_POST['search'];
+            $sql = "SELECT * FROM retail,area where retail.area_id=area.area_id && retail.status = 1  && (retail_username  LIKE '%{$search}%' || area_code  LIKE '%{$search}%' || retail_phone LIKE '%{$search}%'  )";
+            $query = mysqli_query($conn,$sql);
+
+            $results = mysqli_fetch_all($query,MYSQLI_ASSOC);
+            foreach($results as $row) {
+            ?>
+
+                                        <tr>
+                                            <td><?php echo $row['retail_id']; ?></td>
                                             <td><?php echo $row['retail_username']; ?></td>
-                                            <td><?php echo $row['date']; ?></td>
 
-                                            <td><?php 
-      if($row['status'] == 0){
-      echo "pending";}elseif($row['status'] == 9){
-        echo"cancelled";  
-      } else{
-          echo"completed";
-      }?></td>
-                                            <td><a href="order_details.php?id=<?php echo $row['order_id']; ?>"
-                                                    class="btn btn-primary">Details</a></td>
-
-                                            <td>
-
-                                                <?php if($row['status'] == 1){
-                                                 $i=   $row['order_id'] ;
-$s = " SELECT invoice.order_id,invoice.status  FROM invoice
-
-WHERE invoice.order_id= $i";
-
-
-$q = mysqli_query($conn,$s);
-
-$r = mysqli_fetch_assoc($q);
-                                               
-if($r['status'] == 0){     
-                                               ?>
-
-
-
-                                                <a href="functions/generate_invoice.php?id=<?php echo $row['order_id']; ?>"
-                                                    class="btn btn-warning">
-                                                    <?php
-                                                echo"invoice";
-                                               } else { ?> </a>
-
-
-
-
-
-                                                <a href="functions/generate_invoice.php?id=<?php echo $row['order_id']; ?>"
-                                                    class="btn btn-success">
-                                                    <?php
-                                                echo"invoice";
-?></a>
-                                                <?php }}?>
-
-                                            </td>
+                                            <td><?php echo $row['area_code']; ?></td>
+                                            <td><?php echo $row['retail_email']; ?></td>
+                                            <td><?php echo $row['retail_phone']; ?></td>
+                                            <td><?php echo $row['retail_address']; ?></td>
 
 
                                         </tr>
-                                        <?php } ?>
 
+                                        <?php } ?>
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
                     </div>

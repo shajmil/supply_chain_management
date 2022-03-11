@@ -107,7 +107,16 @@ $result = mysqli_fetch_all($quer,MYSQLI_ASSOC);
                         </div>
                         <div class="table_section padding_infor_info">
                             <div class="table-responsive-sm">
-
+                                <div style="text-align:right; border-top:1px " class="">
+                                    <form id="" action="search_ord.php" class=" " method="POST">
+                                        <div class="">
+                                            <br>
+                                            <input type="text" name="search" class="" placeholder="Search">
+                                            <button type="submit" class="btn btn-sm"><i
+                                                    class="icon-search"></i></button>
+                                        </div>
+                                    </form>
+                                </div>
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>

@@ -35,6 +35,15 @@
                         <h4 class="card-title">manufacturer</h4>
 
                         <div class="table-responsive">
+                            <div style="text-align:right; border-top:1px " class="">
+                                <form id="" action="search_dis.php" class=" " method="POST">
+                                    <div class="">
+                                        <br>
+                                        <input type="text" name="search" class="" placeholder="Search">
+                                        <button type="submit" class="btn btn-sm"><i class="icon-search"></i></button>
+                                    </div>
+                                </form>
+                            </div>
                             <table class="table table-dark">
                                 <thead>
                                     <tr>
