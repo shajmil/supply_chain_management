@@ -1,5 +1,5 @@
 # supply_chain_management
-******************    YOU CAN VIEW MY PROJECT LIVE BY <a href="https://suckled-flickers.000webhostapp.com" target="_blank">CLICKING HERE ******************</a>
+******************    YOU CAN VIEW MY PROJECT LIVE BY <a href="https://suckled-flickers.000webhostapp.com" target="_blank"></a>CLICKING HERE *****************
 Free Download Source Code "Supply_Management_System"
 
 FIRST Download
