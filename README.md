@@ -2,6 +2,11 @@
 ***************** YOU CAN VIEW MY PROJECT LIVE BY <a href="https://suckled-flickers.000webhostapp.com" target="_blank">CLICKING HERE</a> *****************
 
 
+project which can be used by the company management to keep track of the sales, dealers and its clients.clients can view all the products and can make order from different companies Frontend:HTML,CSS, Javascript Backend:mysql,PHP
+
+
+
+
 Free Download Source Code "Supply_Management_System"
 
 FIRST Download
